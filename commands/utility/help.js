@@ -7,7 +7,7 @@ module.exports = {
   usage: '<category/command>',
   aliases: ['h'],
   permLevel: '0',
-  run: async (client, msg, args, prefix, command, Discord, MessageEmbed, userLevel) => {
+  run: async (client, msg, args, prefix, MessageEmbed) => {
     const cat = args.join(' ');
 
     // Filter out commands if user cannot use them or if user cannot use that cmd in DMs.
@@ -81,7 +81,7 @@ module.exports = {
       });
       embed.setTitle('Help')
         .setDescription(`Please select a category to see its available commands.\nUsage: \`${prefix}help <command/category>\``)
-        .addField('» Available Categories', myCategories.join('\n').toProperCase(), true)
+        .addField('» Available Categories', myCategories.join('\n').toUpperCase(), true)
         .addField('» Useful Information', "[Server Invite](https://discord.gg/javascript)\n[Server Rules](https://discordapp.com/channels/720661480143454340/720719184543088691/720719325723361362)\n[Warning Appeal](https://docs.google.com/forms/d/1zxH9sFrTEHgDd56Jm1B4ieDTJbYVv4JGwkhyK3cYxDY)\n[Support Application](https://docs.google.com/forms/d/1k2AvZEnwbL7TFPuFduRCODBgMp8bT4YWQM4cEgIx-mw)", true)
       msg.channel.send(embed);
     }

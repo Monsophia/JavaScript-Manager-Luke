@@ -1,5 +1,3 @@
-const moment = require("moment");
-const Enmap = require('enmap');
 require("moment-duration-format");
 
 module.exports = {
@@ -8,7 +6,7 @@ module.exports = {
   aliases: [],
   usage: '<User ID (only for staff)>',
   description: 'Fetch a user by ID (if warning a non member doesn\'t work :/)',
-  run: async (client, msg, args, prefix, command, Discord, MessageEmbed) => {
+  run: async (client, msg, args) => {
     if (!staff) return msg.reply(`I'm sorry but you have to be in the staff team to use this command!`);
     if (msg.mentions.members.first()) return msg.reply('You may only insert a user ID!');
     try {

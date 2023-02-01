@@ -1,4 +1,3 @@
-const moment = require("moment");
 const Enmap = require('enmap');
 require("moment-duration-format");
 
@@ -8,7 +7,7 @@ module.exports = {
   aliases: [],
   usage: '<tag>',
   description: 'Delete a tag (staff only)',
-  run: async (client, msg, args, prefix, command, Discord, MessageEmbed) => {
+  run: async (msg, args) => {
     if (!staff) return msg.reply(`I'm sorry but you have to be in the staff team to use this command!`);
     if (!args[0]) return msg.reply('Please use the command like this: .delinfo <tag>');
     const infoName = args[0];

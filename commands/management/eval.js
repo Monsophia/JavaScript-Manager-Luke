@@ -1,19 +1,12 @@
 const { inspect } = require('util');
-const Discord = require('discord.js');
 module.exports = {
   name: 'eval',
   category: 'Management',
   permLevel: '4',
   description: 'Evaluate some code',
   usage: '<code>',
-  run: async (client, msg, args, prefix, command, Discord, MessageEmbed, userLevel, guildBotSettings) => {
+  run: async (client, msg, args, MessageEmbed) => {
     if (!admin) return
-    const server = msg.guild;
-    const message = msg;
-    const luke = 'Big Brain Nerd';
-    const Enmap = require('enmap');
-    const member = msg.mentions.members.first()
-    const { warn } = require('../../handler/functions.js');
     const emb = new MessageEmbed()
       .setFooter(msg.author.username, msg.author.avatarURL())
     const query = args.join(' ')
@@ -30,13 +23,13 @@ module.exports = {
           .setColor('#ff5d5d')
       } finally {
         msg.channel.send(emb).catch(err => {
-            msg.channel.send(`There was an error while displaying the eval result! \n ${err.message}`)
-          })
+          msg.channel.send(`There was an error while displaying the eval result! \n ${err.message}`)
+        })
       }
     } else {
       const em = new MessageEmbed()
-      .setColor('RED')
-      .setDescription('Please, write something so I can evaluate!');
+        .setColor('RED')
+        .setDescription('Please, write something so I can evaluate!');
       msg.channel.send(em);
     }
   }

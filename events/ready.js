@@ -24,25 +24,25 @@ module.exports = async client => {
   const WEEK = 7 * 24 * 60 * 60 * 1000;
 
   async function check(db) {
-      const startDate = new Date(2020, 11, 20, 0, 0, 0, 0).getTime();
-      db.ensure('last_check', startDate);
-      let lastPost = db.get('last_check');
-      setInterval(async () => {
-          if (Date.now() - lastPost > WEEK) {
-              lastPost += WEEK;
-              const filter = db.filter(d => d.id && typeof d.id == 'string');
-              const checkChan = client.channels.cache.get('792711754311794728');
-              const em = new MessageEmbed()
-              .setColor(color)
-              .setTitle(`Staff Checks | ${moment(Date.now()).format('LL')}`);
-              for(const data of filter) {
-                em.addField(`${(await client.users.fetch(data[1].id)).tag} | ${(await client.guilds.cache.get('720661480143454340').members.fetch(data[1].id)) ? (await client.guilds.cache.get('720661480143454340').members.fetch(data[1].id)).roles.highest.name : 'N/A'}`, `${data[1].count.toLocaleString()} messages sent`);
-              }
-              checkChan.send(em);
-              db.clear()
-              db.set('last_check', lastPost);
-          }
-        },
+    const startDate = new Date(2020, 11, 20, 0, 0, 0, 0).getTime();
+    db.ensure('last_check', startDate);
+    let lastPost = db.get('last_check');
+    setInterval(async () => {
+      if (Date.now() - lastPost > WEEK) {
+        lastPost += WEEK;
+        const filter = db.filter(d => d.id && typeof d.id == 'string');
+        const checkChan = client.channels.cache.get('792711754311794728');
+        const em = new MessageEmbed()
+          .setColor(color)
+          .setTitle(`Staff Checks | ${moment(Date.now()).format('LL')}`);
+        for (const data of filter) {
+          em.addField(`${(await client.users.fetch(data[1].id)).tag} | ${(await client.guilds.cache.get('720661480143454340').members.fetch(data[1].id)) ? (await client.guilds.cache.get('720661480143454340').members.fetch(data[1].id)).roles.highest.name : 'N/A'}`, `${data[1].count.toLocaleString()} messages sent`);
+        }
+        checkChan.send(em);
+        db.clear()
+        db.set('last_check', lastPost);
+      }
+    },
       MINUTE
     )
   };
@@ -50,26 +50,5 @@ module.exports = async client => {
 
   // Mutes system
   setInterval(() => {
-    const mutedDB = new Enmap({ name: 'mutes' })
-    .forEach(async (db) => {
-      if (db.duration === 0) return;
-      const previous = db.mutedAt;
-      let cd = (db.duration - (Date.now() - previous))
-      if (previous !== null && previous !== undefined && cd > 0) return // Still muted.
-      if ((db.duration - (Date.now() - previous)) >= 0) return // Still muted.
-      // Unmute here.
-      const server = client.guilds.cache.get('720661480143454340');
-      await server.member(db.id).roles.set(db.roles);
-      await server.member(db.id).send("You were unmuted in **JavaScript Universe**");
-      const clearedWarnsLog = client.channels.cache.get('795937907809845248');
-      const em = new MessageEmbed()
-      .setTitle("Unmuted")
-      .setColor("GREEN")
-      .addField("Automatic Unmute", `System`)
-      .addField("User", `${server.member(db.id).user.tag} (${db.id})`)
-      .setTimestamp();
-      await clearedWarnsLog.send(em);
-      new Enmap({ name: 'mutes' }).delete(db.id)
-    });
   }, 60000)
 };

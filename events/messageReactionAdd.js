@@ -1,5 +1,4 @@
-const { Discord, MessageEmbed } = require('discord.js');
-const { warn } = require('../handler/functions.js');
+const { MessageEmbed } = require('discord.js');
 
 module.exports = async (client, messageReaction) => {
     if (messageReaction.message.author.bot) return;
@@ -17,8 +16,8 @@ module.exports = async (client, messageReaction) => {
         const matchingContent = starboard.messages.cache.find(m => m.embeds[0].footer.text.split(' : ')[0] == messageReaction.message.id) || false;
         if (!matchingContent) { // Create starboard message here.
             const em = new MessageEmbed()
-            .setAuthor(messageReaction.message.author.username, messageReaction.message.author.displayAvatarURL({ format: 'png', dynamic: true }))
-            .setColor("YELLOW");
+                .setAuthor(messageReaction.message.author.username, messageReaction.message.author.displayAvatarURL({ format: 'png', dynamic: true }))
+                .setColor("YELLOW");
             if (messageReaction.message.content) {
                 em.setDescription(messageReaction.message.content)
             }
@@ -32,8 +31,8 @@ module.exports = async (client, messageReaction) => {
         }
         // Edit starboard message with new stars.
         const em = new MessageEmbed()
-        .setAuthor(messageReaction.message.author.username, messageReaction.message.author.displayAvatarURL({ format: 'png', dynamic: true }))
-        .setColor("YELLOW");
+            .setAuthor(messageReaction.message.author.username, messageReaction.message.author.displayAvatarURL({ format: 'png', dynamic: true }))
+            .setColor("YELLOW");
         if (messageReaction.message.content) {
             em.setDescription(messageReaction.message.content)
         }
@@ -45,5 +44,4 @@ module.exports = async (client, messageReaction) => {
         em.setFooter(`${messageReaction.message.id} : ${messageReaction.message.channel.id}`);
         return matchingContent.edit(em).catch(err => console.error(err));
     }
-
 }

@@ -1,4 +1,3 @@
-const moment = require("moment");
 const Enmap = require('enmap');
 require("moment-duration-format");
 
@@ -8,7 +7,7 @@ module.exports = {
   aliases: [],
   usage: '<tag> <\\`info\\`>',
   description: 'Edit a canned message (only for staff)',
-  run: async (client, msg, args, prefix, command, Discord, MessageEmbed) => {
+  run: async (msg, args) => {
     if (!staff) return msg.reply(`I'm sorry but you have to be in the management team to use this command!`);
     if (!args[0]) return msg.reply('Please use the command like this: .editcanned <prefix> <canned message>');
     const infoName = args[0];
